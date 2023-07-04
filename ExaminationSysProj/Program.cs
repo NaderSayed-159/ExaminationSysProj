@@ -23,7 +23,7 @@
 
             //#region HTML QuestionList
             //string htmlQ1Body = @"HTML stands for 'Hyper Text Markup Language'";
-            //Question htmlQ1 = new TrueOrFalseQuestion(AnswerList.AnswerListTF(true), true, htmlQ1Body);
+            //Question htmlQ1 = new TrueOrFalseQuestion(AnswerList.AnswerListTF(true), htmlQ1Body);
 
 
             //Answer HTMLQ2ans1 = new Answer("h1", true);
@@ -67,7 +67,7 @@
 
             //#region JSQuesionList Creation
             //string JSQ1Body = "Can't use js in styling elements of HTML?";
-            //Question JSQ1 = new TrueOrFalseQuestion(AnswerList.AnswerListTF(true), false, JSQ1Body);
+            //Question JSQ1 = new TrueOrFalseQuestion(AnswerList.AnswerListTF(false), JSQ1Body);
 
             //Answer JSQ2ans1 = new Answer("getElementById", true);
             //Answer JSQ2ans2 = new Answer("getElementsByClassName", false);

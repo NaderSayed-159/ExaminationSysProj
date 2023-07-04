@@ -92,13 +92,8 @@ namespace ExaminationSysProj
 
     public class TrueOrFalseQuestion : Question
     {
-        bool TorF;
 
-        public TrueOrFalseQuestion(AnswerList TFQuestionAnswers, bool _TorF, string Body, string header = "True Or False", int marks = 5) : base(TFQuestionAnswers, Body, header, marks)
-        {
-            TorF = _TorF;
-            QuestionAnswers = TFQuestionAnswers;
-        }
+
         [JsonConstructor]
         public TrueOrFalseQuestion(AnswerList QuestionAnswers, string Body, string header = "True Or False", int marks = 5) : base(QuestionAnswers, Body, header, marks)
         {
