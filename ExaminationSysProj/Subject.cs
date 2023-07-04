@@ -15,7 +15,6 @@ namespace ExaminationSysProj
         }
 
 
-
         public QuestionList GetSubjQuestionList()
         {
             QuestionList deserializedSubjQs = new QuestionList(false);
@@ -50,21 +49,77 @@ namespace ExaminationSysProj
 
 
 
-            //deserializedSubjQs = JsonSerializer.Deserialize<QuestionList>(ReadTxt);
-
             return deserializedSubjQs;
         }
-
-
-        //public void CreateExam(int ExamTID,string userExamType)
-        public void CreateExam(string userExamType)
+        public static Subject ChooseSubj()
         {
-            Type examType = Type.GetType(userExamType);
+            Subject ExamSubj = default;
+            Console.WriteLine("What subject?");
+            Console.WriteLine("1- HTML");
+            Console.WriteLine("2- Javascript");
+            int subjectID;
+            do
+            {
+
+                Console.Write("Your Answer : ");
+                if (!int.TryParse(Console.ReadLine(), out subjectID))
+                {
+                    continue;
+                }
+
+            } while (subjectID < 0 || subjectID > 2);
+
+            Helpers.Printline("*", 25);
+
+
+            switch (subjectID)
+            {
+                case (1):
+                    ExamSubj = new Subject("HTML");
+                    break;
+                case (2):
+                    ExamSubj = new Subject("Javascript");
+                    break;
+            }
+            return ExamSubj;
+        }
+        public void GenerateExamForSubj()
+        {
+
+            int ExamTypeID;
+            string ExamType = "";
+            Console.WriteLine("Exam Type");
+            Console.WriteLine("1- Practice");
+            Console.WriteLine("2- Final");
+            do
+            {
+
+                Console.Write("Your Answer : ");
+                if (!int.TryParse(Console.ReadLine(), out ExamTypeID))
+                {
+                    continue;
+                }
+
+            } while (ExamTypeID < 0 || ExamTypeID > 2);
+
+            switch (ExamTypeID)
+            {
+                case (1):
+                    ExamType = "ExaminationSysProj.PracticeExam";
+                    break;
+                case (2):
+                    ExamType = "ExaminationSysProj.FinalExam";
+                    break;
+
+            }
+            Type examType = Type.GetType(ExamType);
 
             var constructor = examType.GetConstructor(new Type[] { typeof(QuestionList) });
 
             SubjExam = (Exam)constructor.Invoke(new object[] { GetSubjQuestionList() });
 
         }
+
+
     }
 }

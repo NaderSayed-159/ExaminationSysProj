@@ -37,6 +37,18 @@
 
 
         public abstract void ShowExam();
+        public static void StartExam()
+        {
+            Subject ExamSubj = Subject.ChooseSubj();
+
+            ExamSubj.GenerateExamForSubj();
+
+            Helpers.Printline("+", 25);
+            Console.WriteLine($"Exam of {ExamSubj.SubjectTitle}");
+            Helpers.Printline("+", 25);
+
+            ExamSubj.SubjExam.ShowExam();
+        }
     }
 
 
@@ -93,7 +105,7 @@
         public override void ShowExam()
         {
             Console.Write($"Exam Time: {_ExamTime}      ");
-            Console.Write($"Questions Number: {ExamQuestions.Count}      ");
+            Console.WriteLine($"Questions Number: {ExamQuestions.Count}      ");
             Helpers.Printline("*", 25);
 
             foreach (Question question in ExamQuestions)
@@ -102,6 +114,8 @@
                 Helpers.Printline("*", 25);
             }
         }
+
+
     }
 
 
