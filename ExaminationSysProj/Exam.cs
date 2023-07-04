@@ -2,8 +2,8 @@
 {
     abstract public class Exam
     {
-        byte ExamTime;
-        int NumberOfQuestions;
+        byte ExamTime { get; set; }
+        int NumberOfQuestions { get; set; }
         Dictionary<int, int> ModelAnswer;
         QuestionList ExamQuestion;
 
@@ -54,6 +54,9 @@
 
         public override void ShowExam()
         {
+            Console.Write($"Exam Time: {_ExamTime}      ");
+            Console.Write($"Questions Number: {ExamQuestions.Count}      ");
+            Helpers.Printline("*", 25);
             foreach (Question question in ExamQuestions)
             {
                 question.DisplayQuestion();
@@ -89,6 +92,10 @@
 
         public override void ShowExam()
         {
+            Console.Write($"Exam Time: {_ExamTime}      ");
+            Console.Write($"Questions Number: {ExamQuestions.Count}      ");
+            Helpers.Printline("*", 25);
+
             foreach (Question question in ExamQuestions)
             {
                 question.DisplayQuestion();
@@ -96,15 +103,6 @@
             }
         }
     }
-
-
-
-
-
-
-
-
-
 
 
 }

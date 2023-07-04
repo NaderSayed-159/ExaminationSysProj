@@ -101,14 +101,12 @@
                     ExamSubj = new Subject("HTML");
                     break;
                 case (2):
-                    ExamSubj = new Subject("JS");
+                    ExamSubj = new Subject("Javascript");
                     break;
             }
 
-
-            int ExamTID;
-            Exam CurrentExam = default;
-
+            int ExamTypeID;
+            string ExamType = "";
             Console.WriteLine("Exam Type");
             Console.WriteLine("1- Practice");
             Console.WriteLine("2- Final");
@@ -116,29 +114,28 @@
             {
 
                 Console.Write("Your Answer : ");
-                if (!int.TryParse(Console.ReadLine(), out ExamTID))
+                if (!int.TryParse(Console.ReadLine(), out ExamTypeID))
                 {
                     continue;
                 }
 
-            } while (ExamTID < 0 || ExamTID > 2);
-
-
-            switch (ExamTID)
+            } while (ExamTypeID < 0 || ExamTypeID > 2);
+            switch (ExamTypeID)
             {
                 case (1):
-                    CurrentExam = new PracticeExam(ExamSubj.GetSubjQuestionList());
+                    ExamType = "ExaminationSysProj.PracticeExam";
                     break;
                 case (2):
-                    CurrentExam = new FinalExam(ExamSubj.GetSubjQuestionList());
-
-
+                    ExamType = "ExaminationSysProj.FinalExam";
                     break;
 
             }
+            ExamSubj.CreateExam(ExamType);
+
+            Console.WriteLine($"Exam of {ExamSubj.SubjectTitle}");
             Helpers.Printline("*", 25);
 
-            CurrentExam.ShowExam();
+            ExamSubj.SubjExam.ShowExam();
 
 
         }

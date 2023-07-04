@@ -6,8 +6,8 @@ namespace ExaminationSysProj
     public class Subject
     {
 
-        string SubjectTitle { get; set; }
-        QuestionList SubjQuestions { get; set; }
+        public string SubjectTitle { get; set; }
+        public Exam SubjExam { get; set; }
 
         public Subject(string _SubjectTitle)
         {
@@ -56,5 +56,15 @@ namespace ExaminationSysProj
         }
 
 
+        //public void CreateExam(int ExamTID,string userExamType)
+        public void CreateExam(string userExamType)
+        {
+            Type examType = Type.GetType(userExamType);
+
+            var constructor = examType.GetConstructor(new Type[] { typeof(QuestionList) });
+
+            SubjExam = (Exam)constructor.Invoke(new object[] { GetSubjQuestionList() });
+
+        }
     }
 }

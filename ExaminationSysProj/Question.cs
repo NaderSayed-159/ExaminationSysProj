@@ -33,10 +33,9 @@ namespace ExaminationSysProj
         readonly bool ListForExam;
         bool addBehaviour;
 
-        public QuestionList(string _listName, bool _ListForExam, bool _addBehaviour)
+        public QuestionList(string _listName, bool _addBehaviour)
         {
             listName = _listName;
-            ListForExam = _ListForExam;
             addBehaviour = _addBehaviour;
         }
         public QuestionList(bool _addBehaviour)
@@ -50,85 +49,54 @@ namespace ExaminationSysProj
 
             if (addBehaviour)
             {
-                LogQuestion(question);
+                LogQ(question);
             }
 
 
 
         }
 
-        public void LogQuestion(Question quesion)
+        public void LogQ(Question quesion)
         {
             string path;
-            if (ListForExam == true)
+
+            var isExist = Directory.Exists("SubjList");
+            if (!isExist)
             {
-                var isExist = Directory.Exists("ExamLists");
-                if (!isExist)
-                {
-                    path = Directory.CreateDirectory("ExamLists").FullName;
-                }
-                else
-                {
-                    path = new DirectoryInfo("ExamLists").FullName;
-                }
-
-                string JsonFromQuesion = JsonSerializer.Serialize(quesion, new JsonSerializerOptions
-                {
-                    AllowTrailingCommas = true,
-                    WriteIndented = true
-                });
-
-                try
-                {
-                    using (TextWriter writer = new StreamWriter(@$"{path}\{listName}.json"))
-                    {
-                        writer.Write(JsonFromQuesion);
-                    }
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine(@"Can't log question");
-                }
+                path = Directory.CreateDirectory("SubjList").FullName;
             }
             else
             {
-                var isExist = Directory.Exists("SubjList");
-                if (!isExist)
+                path = new DirectoryInfo("SubjList").FullName;
+            }
+
+            string JsonFromQuesion = JsonSerializer.Serialize(quesion, new JsonSerializerOptions
+            {
+                IncludeFields = false
+            });
+
+            try
+            {
+
+                if (quesion.GetType().Name == "TrueOrFalseQuestion")
                 {
-                    path = Directory.CreateDirectory("SubjList").FullName;
+                    File.AppendAllText(@$"{path}\{listName}.txt", "tf" + Environment.NewLine);
+
                 }
                 else
                 {
-                    path = new DirectoryInfo("SubjList").FullName;
-                }
-
-                string JsonFromQuesion = JsonSerializer.Serialize(quesion, new JsonSerializerOptions
-                {
-                    IncludeFields = false
-                });
-
-                try
-                {
-
-                    if (quesion.GetType().Name == "TrueOrFalseQuestion")
-                    {
-                        File.AppendAllText(@$"{path}\{listName}.txt", "tf" + Environment.NewLine);
-
-                    }
-                    else
-                    {
-                        File.AppendAllText(@$"{path}\{listName}.txt", "chooseone" + Environment.NewLine);
-
-                    }
-
-                    File.AppendAllText(@$"{path}\{listName}.txt", JsonFromQuesion + Environment.NewLine);
+                    File.AppendAllText(@$"{path}\{listName}.txt", "chooseone" + Environment.NewLine);
 
                 }
-                catch (Exception)
-                {
-                    Console.WriteLine(@"Can't log question");
-                }
+
+                File.AppendAllText(@$"{path}\{listName}.txt", JsonFromQuesion + Environment.NewLine);
+
             }
+            catch (Exception)
+            {
+                Console.WriteLine(@"Can't log question");
+            }
+
         }
 
     }
@@ -216,4 +184,7 @@ namespace ExaminationSysProj
         }
 
     }
+
+
+
 }
