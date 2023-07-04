@@ -51,9 +51,6 @@ namespace ExaminationSysProj
             {
                 LogQ(question);
             }
-
-
-
         }
 
         public void LogQ(Question quesion)

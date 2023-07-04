@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 
@@ -48,65 +50,73 @@ namespace ExaminationSysProj
         }
         public static Subject ChooseSubj()
         {
-            Subject ExamSubj = default;
+            string path;
+            var isExist = Directory.Exists("SubjList");
+            if (!isExist)
+            {
+                path = Directory.CreateDirectory("SubjList").FullName;
+            }
+            else
+            {
+                path = new DirectoryInfo("SubjList").FullName;
+            }
+
             Console.WriteLine("What subject?");
-            Console.WriteLine("1- HTML");
-            Console.WriteLine("2- Javascript");
-            int subjectID;
+
+            string[] textFiles = Directory.GetFiles(path, "*.txt").Select(file => Path.GetFileName(file).Substring(0, Path.GetFileName(file).Length - 4)).ToArray();
+            foreach (var fileName in textFiles)
+            {
+                Console.WriteLine($"--> {fileName}");
+            }
+
+            Subject ExamSubj;
+
+            string subjectNameInput;
+
             do
             {
-
                 Console.Write("Your Answer : ");
-                if (!int.TryParse(Console.ReadLine(), out subjectID))
-                {
-                    continue;
-                }
-
-            } while (subjectID < 0 || subjectID > 2);
+                subjectNameInput = Console.ReadLine();
+            } while (!textFiles.Contains(subjectNameInput.ToUpper()));
 
             Helpers.Printline("*", 25);
 
 
-            switch (subjectID)
-            {
-                case (1):
-                    ExamSubj = new Subject("HTML");
-                    break;
-                case (2):
-                    ExamSubj = new Subject("Javascript");
-                    break;
-            }
+            ExamSubj = new Subject(subjectNameInput);
+
             return ExamSubj;
         }
         public void GenerateExamForSubj()
         {
+            Type baseType = typeof(Exam);
 
-            int ExamTypeID;
-            string ExamType = "";
-            Console.WriteLine("Exam Type");
-            Console.WriteLine("1- Practice");
-            Console.WriteLine("2- Final");
-            do
+            var ExamChildsNames = Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .Where(type => type.IsSubclassOf(baseType))
+                .Select(type => type.Name.Substring(0, type.Name.Length - 4));
+
+
+            Console.WriteLine("Exam Types");
+            foreach (string className in ExamChildsNames)
             {
-
-                Console.Write("Your Answer : ");
-                if (!int.TryParse(Console.ReadLine(), out ExamTypeID))
-                {
-                    continue;
-                }
-
-            } while (ExamTypeID < 0 || ExamTypeID > 2);
-
-            switch (ExamTypeID)
-            {
-                case (1):
-                    ExamType = "ExaminationSysProj.PracticeExam";
-                    break;
-                case (2):
-                    ExamType = "ExaminationSysProj.FinalExam";
-                    break;
+                Console.WriteLine($"--> {className}");
 
             }
+            string ExamTypeInput;
+
+            do
+            {
+                Console.Write("Your Answer : ");
+                ExamTypeInput = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Console.ReadLine());
+
+            } while (!ExamChildsNames.Contains(ExamTypeInput));
+
+            ExamTypeInput = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(ExamTypeInput);
+
+
+            string ExamType = $"ExaminationSysProj.{ExamTypeInput}Exam";
+
+
             Type examType = Type.GetType(ExamType);
 
             var constructor = examType.GetConstructor(new Type[] { typeof(QuestionList) });
