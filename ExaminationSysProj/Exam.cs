@@ -4,7 +4,7 @@
     {
         byte ExamTime { get; set; }
         int NumberOfQuestions { get; set; }
-        Dictionary<int, int> ModelAnswer;
+        Dictionary<int, List<int>> ModelAnswer;
         QuestionList ExamQuestion;
 
 
@@ -13,19 +13,20 @@
             ExamQuestion = _ExamQuesion;
         }
 
-        protected Dictionary<int, int> CreateModalAnswers(ref Dictionary<int, int> _ModelAnswer)
+        protected Dictionary<int, List<int>> CreateModalAnswers(ref Dictionary<int, List<int>> _ModelAnswer)
         {
             for (int i = 0; i < ExamQuestion.Count; i++)
             {
+                List<int> RightAnswers = new List<int>();
                 for (int j = 0; j < ExamQuestion[i].QuestionAnswers.Count; j++)
                 {
                     if (ExamQuestion[i].QuestionAnswers[j].isRight)
                     {
+                        RightAnswers.Add(j);
 
-                        _ModelAnswer[i + 1] = j;
-                        break;
                     }
                 }
+                _ModelAnswer[i + 1] = RightAnswers;
 
             }
             return _ModelAnswer;
@@ -33,7 +34,7 @@
 
         public byte _ExamTime { get { return ExamTime; } set { ExamTime = value; } }
         public int _NumberOfQuestions { get { return NumberOfQuestions; } set { NumberOfQuestions = value; } }
-        public Dictionary<int, int> _ModelAnswer { get { return ModelAnswer; } set { ModelAnswer = value; } }
+        public Dictionary<int, List<int>> _ModelAnswer { get { return ModelAnswer; } set { ModelAnswer = value; } }
 
 
         public abstract void ShowExam();
@@ -67,16 +68,18 @@
         public override void ShowExam()
         {
             Console.Write($"Exam Time: {_ExamTime}      ");
-            Console.Write($"Questions Number: {ExamQuestions.Count}      ");
+            Console.WriteLine($"Questions Number: {ExamQuestions.Count}      ");
             Helpers.Printline("*", 25);
             foreach (Question question in ExamQuestions)
             {
                 question.DisplayQuestion();
                 Helpers.Printline("*", 25);
             }
-            Dictionary<int, int> Manswers = new Dictionary<int, int>();
+
+            Dictionary<int, List<int>> Manswers = new Dictionary<int, List<int>>();
             _ModelAnswer = CreateModalAnswers(ref Manswers);
 
+            Helpers.Printline("#", 25);
             Console.Write("Exam Modal Answer:");
             Console.WriteLine("       #");
             Helpers.Printline("#", 25);
@@ -84,7 +87,10 @@
             for (int i = 1; i <= ExamQuestions.Count; i++)
             {
                 Console.WriteLine(ExamQuestions[i - 1].Body);
-                Console.WriteLine($"Right Answer: {ExamQuestions[i - 1].QuestionAnswers[_ModelAnswer[i]].body}");
+                foreach (int rightAnswer in _ModelAnswer[i])
+                {
+                    Console.WriteLine($"Right Answer: {ExamQuestions[i - 1].QuestionAnswers[rightAnswer].body}");
+                }
                 Helpers.Printline("*", 25);
             }
         }

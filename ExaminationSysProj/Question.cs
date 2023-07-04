@@ -77,17 +77,9 @@ namespace ExaminationSysProj
 
             try
             {
+                string QuestionType = typeof(Question).Namespace + "." + quesion.GetType().Name;
+                File.AppendAllText(@$"{path}\{listName}.txt", QuestionType + Environment.NewLine);
 
-                if (quesion.GetType().Name == "TrueOrFalseQuestion")
-                {
-                    File.AppendAllText(@$"{path}\{listName}.txt", "tf" + Environment.NewLine);
-
-                }
-                else
-                {
-                    File.AppendAllText(@$"{path}\{listName}.txt", "chooseone" + Environment.NewLine);
-
-                }
 
                 File.AppendAllText(@$"{path}\{listName}.txt", JsonFromQuesion + Environment.NewLine);
 
@@ -185,6 +177,59 @@ namespace ExaminationSysProj
 
     }
 
+    public class ChooseMultiQuesion : Question
+    {
+        public ChooseMultiQuesion(AnswerList QuestionAnswers, string Body, string header = "Choose Multi", int marks = 15) : base(QuestionAnswers, Body, header, marks)
+        {
+            this.QuestionAnswers = QuestionAnswers;
 
+        }
+
+        public override int DisplayQuestion()
+        {
+            Console.Write(header);
+            Console.WriteLine($"    Marks : {marks}");
+            Console.WriteLine(Body);
+
+            for (int i = 1; i <= QuestionAnswers.Count; i++)
+            {
+                Console.WriteLine($"{i} - {QuestionAnswers[i - 1].body}");
+
+            }
+            List<int> useraAnswers = new List<int>();
+
+
+            int x = 0;
+            string input;
+            do
+            {
+                if (useraAnswers.Count == QuestionAnswers.Count)
+                {
+                    break;
+                }
+                Console.Write("Your Answer : ");
+                input = Console.ReadLine().ToLower();
+
+                if (!int.TryParse(input, out x))
+
+                {
+                    continue;
+                }
+                else if (x <= QuestionAnswers.Count && x != 0 && !useraAnswers.Contains(x))
+                {
+                    useraAnswers.Add(x);
+
+                }
+
+            } while (input != "ok");
+
+
+            return x;
+
+
+        }
+
+
+    }
 
 }

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Reflection;
 using System.Text.Json;
 
 namespace ExaminationSysProj
@@ -28,21 +29,15 @@ namespace ExaminationSysProj
 
             for (int i = 0; i <= jsonQuestions.Length; i++)
             {
-                string typeOfQuestion = "";
+                string typeOfQuestion;
                 if (i % 2 != 0)
 
                 {
                     typeOfQuestion = jsonQuestions[i - 1];
-                    if (typeOfQuestion == "tf")
-                    {
-                        TrueOrFalseQuestion q = JsonSerializer.Deserialize<TrueOrFalseQuestion>(jsonQuestions[i]);
-                        deserializedSubjQs.Add(q);
-                    }
-                    else
-                    {
-                        ChooseOneQuestion q = JsonSerializer.Deserialize<ChooseOneQuestion>(jsonQuestions[i]);
-                        deserializedSubjQs.Add(q);
-                    }
+                    Type QuestionType = Assembly.GetExecutingAssembly().GetType(typeOfQuestion);
+
+                    Question q = (Question)JsonSerializer.Deserialize(jsonQuestions[i], QuestionType);
+                    deserializedSubjQs.Add(q);
                 }
 
             }

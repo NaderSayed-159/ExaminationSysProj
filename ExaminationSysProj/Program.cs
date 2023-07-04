@@ -41,10 +41,26 @@
             //Question htmlQ2 = new ChooseOneQuestion(htmlQ2AnsLis, htmlQ2Body);
 
 
-            //QuestionList HtmlQuestions = new QuestionList("HTML", false);
+
+            //Answer HTMLQ3ans1 = new Answer("h1", true);
+            //Answer HTMLQ3ans2 = new Answer("a", false);
+            //Answer HTMLQ3ans3 = new Answer("footer", false);
+            //Answer HTMLQ3ans4 = new Answer("header", false);
+
+            //AnswerList htmlQ3AnsLis = new AnswerList();
+            //htmlQ3AnsLis?.Add(HTMLQ3ans1);
+            //htmlQ3AnsLis?.Add(HTMLQ3ans2);
+            //htmlQ3AnsLis?.Add(HTMLQ3ans3);
+            //htmlQ3AnsLis?.Add(HTMLQ3ans4);
+
+            //string htmlQ3Body = @"What is Tag is new in HTML5?";
+            //Question htmlQ3 = new ChooseMultiQuesion(htmlQ3AnsLis, htmlQ3Body);
+
+            //QuestionList HtmlQuestions = new QuestionList("HTML", true);
 
             //HtmlQuestions?.Add(htmlQ1);
             //HtmlQuestions?.Add(htmlQ2);
+            //HtmlQuestions?.Add(htmlQ3);
 
             //#endregion
 
@@ -68,10 +84,11 @@
             //Question JSQ2 = new ChooseOneQuestion(htmlQ2AnsLis, JSQ2Body);
 
 
-            //QuestionList JSQuestions = new QuestionList("JS", false);
+            //QuestionList JSQuestions = new QuestionList("JS", true);
 
             //JSQuestions?.Add(JSQ1);
             //JSQuestions?.Add(JSQ2);
+
             //#endregion
 
             #endregion
