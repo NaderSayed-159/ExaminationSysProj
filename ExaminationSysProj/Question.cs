@@ -113,17 +113,16 @@ namespace ExaminationSysProj
             Console.WriteLine(Body);
             Console.WriteLine("1 - True");
             Console.WriteLine("2 - False");
-            int x;
+            int x = 0;
             do
             {
-
                 Console.Write("Your Answer : ");
                 if (!int.TryParse(Console.ReadLine(), out x))
                 {
                     continue;
                 }
 
-            } while (x < 0 || x >= 2);
+            } while (!(x >= 1) || !(x <= QuestionAnswers.Count));
 
             return x;
 
@@ -154,17 +153,16 @@ namespace ExaminationSysProj
                 Console.WriteLine($"{counter} - {answer.body}");
                 counter++;
             }
-            int x;
+            int x = 0;
             do
             {
-
                 Console.Write("Your Answer : ");
                 if (!int.TryParse(Console.ReadLine(), out x))
                 {
                     continue;
                 }
 
-            } while (x < 0 || x >= 4);
+            } while (!(x >= 1) || !(x <= QuestionAnswers.Count));
 
             return x;
 
