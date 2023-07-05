@@ -23,7 +23,7 @@ namespace ExaminationSysProj
         }
 
 
-        public abstract int DisplayQuestion();
+        public abstract List<int> DisplayQuestion();
 
     }
 
@@ -101,14 +101,15 @@ namespace ExaminationSysProj
             this.Body = Body;
         }
 
-        public override int DisplayQuestion()
+        public override List<int> DisplayQuestion()
         {
             Console.Write(header);
             Console.WriteLine($"    Marks : {marks}");
             Console.WriteLine(Body);
             Console.WriteLine("1 - True");
             Console.WriteLine("2 - False");
-            int x = 0;
+            int x;
+            List<int> userAnswers = new List<int>();
             do
             {
                 Console.Write("Your Answer : ");
@@ -116,14 +117,13 @@ namespace ExaminationSysProj
                 {
                     continue;
                 }
+                userAnswers.Add(x);
 
             } while (!(x >= 1) || !(x <= QuestionAnswers.Count));
 
-            return x;
+            return userAnswers;
 
         }
-
-
 
     }
 
@@ -137,7 +137,7 @@ namespace ExaminationSysProj
 
 
 
-        public override int DisplayQuestion()
+        public override List<int> DisplayQuestion()
         {
             Console.Write(header);
             Console.WriteLine($"    Marks : {marks}");
@@ -148,7 +148,9 @@ namespace ExaminationSysProj
                 Console.WriteLine($"{counter} - {answer.body}");
                 counter++;
             }
-            int x = 0;
+            int x;
+            List<int> userAnswers = new List<int>();
+
             do
             {
                 Console.Write("Your Answer : ");
@@ -157,11 +159,12 @@ namespace ExaminationSysProj
                     continue;
                 }
 
+                userAnswers.Add(x);
+
             } while (!(x >= 1) || !(x <= QuestionAnswers.Count));
 
-            return x;
 
-
+            return userAnswers;
 
         }
 
@@ -169,13 +172,13 @@ namespace ExaminationSysProj
 
     public class ChooseMultiQuesion : Question
     {
-        public ChooseMultiQuesion(AnswerList QuestionAnswers, string Body, string header = "Choose Multi", int marks = 15) : base(QuestionAnswers, Body, header, marks)
+        public ChooseMultiQuesion(AnswerList QuestionAnswers, string Body, string header = "Choose Multi", int marks = 10) : base(QuestionAnswers, Body, header, marks)
         {
             this.QuestionAnswers = QuestionAnswers;
 
         }
 
-        public override int DisplayQuestion()
+        public override List<int> DisplayQuestion()
         {
             Console.Write(header);
             Console.WriteLine($"    Marks : {marks}");
@@ -186,36 +189,29 @@ namespace ExaminationSysProj
                 Console.WriteLine($"{i} - {QuestionAnswers[i - 1].body}");
 
             }
-            List<int> useraAnswers = new List<int>();
+            List<int> userAnswers = new List<int>();
 
-
-            int x = 0;
             string input;
             do
             {
-                if (useraAnswers.Count == QuestionAnswers.Count)
+                if (userAnswers.Count == QuestionAnswers.Count)
                 {
                     break;
                 }
                 Console.Write("Your Answer : ");
                 input = Console.ReadLine().ToLower();
-
-                if (!int.TryParse(input, out x))
-
+                if (!int.TryParse(input, out int x))
                 {
                     continue;
                 }
-                else if (x <= QuestionAnswers.Count && x != 0 && !useraAnswers.Contains(x))
+                else if (x <= QuestionAnswers.Count && x != 0 && !userAnswers.Contains(x))
                 {
-                    useraAnswers.Add(x);
-
+                    userAnswers.Add(x);
                 }
 
-            } while (input != "ok");
+            } while (userAnswers.Count <= 0 || input != "ok");
 
-
-            return x;
-
+            return userAnswers;
 
         }
 

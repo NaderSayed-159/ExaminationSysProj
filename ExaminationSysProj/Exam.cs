@@ -4,17 +4,18 @@
     {
         byte ExamTime { get; set; }
         int NumberOfQuestions { get; set; }
-        Dictionary<int, List<int>> ModelAnswer;
+        public Dictionary<int, List<int>> ModelAnswer;
         QuestionList ExamQuestion;
-
+        public List<List<int>> StudentAnswers;
 
         public Exam(QuestionList _ExamQuesion)
         {
             ExamQuestion = _ExamQuesion;
         }
 
-        protected Dictionary<int, List<int>> CreateModalAnswers(ref Dictionary<int, List<int>> _ModelAnswer)
+        protected Dictionary<int, List<int>> CreateModalAnswers()
         {
+            Dictionary<int, List<int>> BlockModelAnswer = new Dictionary<int, List<int>>();
             for (int i = 0; i < ExamQuestion.Count; i++)
             {
                 List<int> RightAnswers = new List<int>();
@@ -22,14 +23,14 @@
                 {
                     if (ExamQuestion[i].QuestionAnswers[j].isRight)
                     {
-                        RightAnswers.Add(j);
+                        RightAnswers.Add(j + 1);
 
                     }
                 }
-                _ModelAnswer[i + 1] = RightAnswers;
+                BlockModelAnswer[i + 1] = RightAnswers;
 
             }
-            return _ModelAnswer;
+            return BlockModelAnswer;
         }
 
         public byte _ExamTime { get { return ExamTime; } set { ExamTime = value; } }
@@ -49,6 +50,40 @@
             Helpers.Printline("+", 25);
 
             ExamSubj.SubjExam.ShowExam();
+
+            ExamSubj.SubjExam.CorrectExam();
+
+        }
+
+        public void CorrectExam()
+        {
+            int StudentMarks = 0;
+            int TotalMarks = 0;
+            for (int j = 1; j <= ExamQuestion.Count; j++)
+            {
+                TotalMarks += ExamQuestion[j - 1].marks;
+
+                if (StudentAnswers[j - 1].Count > 1)
+                {
+                    StudentAnswers[j - 1].Sort();
+                }
+
+                if (StudentAnswers[j - 1].SequenceEqual(ModelAnswer[j]))
+                {
+                    StudentMarks += ExamQuestion[j - 1].marks;
+                }
+
+
+
+            }
+            Helpers.Printline("#", 30);
+
+            Console.Write($"You got {StudentMarks} / {TotalMarks}");
+            Console.WriteLine("              #");
+            Helpers.Printline("#", 30);
+
+
+
         }
     }
 
@@ -67,17 +102,17 @@
 
         public override void ShowExam()
         {
+            _ModelAnswer = CreateModalAnswers();
             Console.Write($"Exam Time: {_ExamTime}      ");
             Console.WriteLine($"Questions Number: {ExamQuestions.Count}      ");
             Helpers.Printline("*", 25);
+            StudentAnswers = new List<List<int>>();
             foreach (Question question in ExamQuestions)
             {
-                question.DisplayQuestion();
+                List<int> StAnswer = question.DisplayQuestion();
+                StudentAnswers.Add(StAnswer);
                 Helpers.Printline("*", 25);
             }
-
-            Dictionary<int, List<int>> Manswers = new Dictionary<int, List<int>>();
-            _ModelAnswer = CreateModalAnswers(ref Manswers);
 
             Helpers.Printline("#", 25);
             Console.Write("Exam Modal Answer:");
@@ -89,7 +124,7 @@
                 Console.WriteLine(ExamQuestions[i - 1].Body);
                 foreach (int rightAnswer in _ModelAnswer[i])
                 {
-                    Console.WriteLine($"Right Answer: {ExamQuestions[i - 1].QuestionAnswers[rightAnswer].body}");
+                    Console.WriteLine($"Right Answer: {ExamQuestions[i - 1].QuestionAnswers[rightAnswer - 1].body}");
                 }
                 Helpers.Printline("*", 25);
             }
@@ -110,13 +145,16 @@
 
         public override void ShowExam()
         {
+            _ModelAnswer = CreateModalAnswers();
             Console.Write($"Exam Time: {_ExamTime}      ");
             Console.WriteLine($"Questions Number: {ExamQuestions.Count}      ");
             Helpers.Printline("*", 25);
 
+            StudentAnswers = new List<List<int>>();
             foreach (Question question in ExamQuestions)
             {
-                question.DisplayQuestion();
+                List<int> StAnswer = question.DisplayQuestion();
+                StudentAnswers.Add(StAnswer);
                 Helpers.Printline("*", 25);
             }
         }
