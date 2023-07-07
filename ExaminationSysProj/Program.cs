@@ -69,8 +69,8 @@
             //string JSQ1Body = "Can't use js in styling elements of HTML?";
             //Question JSQ1 = new TrueOrFalseQuestion(AnswerList.AnswerListTF(false), JSQ1Body);
 
-            //Answer JSQ2ans1 = new Answer("getElementById", true);
-            //Answer JSQ2ans2 = new Answer("getElementsByClassName", false);
+            //Answer JSQ2ans1 = new Answer("getElementsByClassName", false);
+            //Answer JSQ2ans2 = new Answer("getElementById", true);
             //Answer JSQ2ans3 = new Answer("getElementsByTagName", false);
             //Answer JSQ2ans4 = new Answer("getElementsByNames", false);
 
