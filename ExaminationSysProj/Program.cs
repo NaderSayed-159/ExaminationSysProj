@@ -53,7 +53,7 @@
             //htmlQ3AnsLis?.Add(HTMLQ3ans3);
             //htmlQ3AnsLis?.Add(HTMLQ3ans4);
 
-            //string htmlQ3Body = @"What is Tag is new in HTML5?";
+            //string htmlQ3Body = @"What is semantic HTML tags?";
             //Question htmlQ3 = new ChooseMultiQuesion(htmlQ3AnsLis, htmlQ3Body);
 
             //QuestionList HtmlQuestions = new QuestionList("HTML", true);

@@ -30,7 +30,7 @@ namespace ExaminationSysProj
     public class QuestionList : List<Question>
     {
         readonly string listName;
-        readonly bool ListForExam;
+        //readonly bool ListForExam;
         bool addBehaviour;
 
         public QuestionList(string _listName, bool _addBehaviour)

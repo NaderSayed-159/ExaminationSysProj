@@ -2,8 +2,8 @@
 {
     abstract public class Exam
     {
-        byte ExamTime { get; set; }
-        int NumberOfQuestions { get; set; }
+        public byte ExamTime { get; set; }
+        public int NumberOfQuestions { get; set; }
         public Dictionary<int, List<int>> ModelAnswer;
         QuestionList ExamQuestion;
         public List<List<int>> StudentAnswers;
@@ -33,11 +33,6 @@
             return BlockModelAnswer;
         }
 
-        public byte _ExamTime { get { return ExamTime; } set { ExamTime = value; } }
-        public int _NumberOfQuestions { get { return NumberOfQuestions; } set { NumberOfQuestions = value; } }
-        public Dictionary<int, List<int>> _ModelAnswer { get { return ModelAnswer; } set { ModelAnswer = value; } }
-
-
         public abstract void ShowExam();
         public static void StartExam()
         {
@@ -46,7 +41,7 @@
             ExamSubj.GenerateExamForSubj();
 
             Helpers.Printline("+", 25);
-            Console.WriteLine($"Exam of {ExamSubj.SubjectTitle}");
+            Console.WriteLine($"Exam of {ExamSubj.SubjectTitle.ToUpper()}");
             Helpers.Printline("+", 25);
 
             ExamSubj.SubjExam.ShowExam();
@@ -94,16 +89,16 @@
         public PracticeExam(QuestionList _ExamQuestion) : base(_ExamQuestion)
         {
             ExamQuestions = _ExamQuestion;
-            _ExamTime = 5;
-            _NumberOfQuestions = ExamQuestions.Count;
+            ExamTime = 5;
+            NumberOfQuestions = ExamQuestions.Count;
 
         }
 
 
         public override void ShowExam()
         {
-            _ModelAnswer = CreateModalAnswers();
-            Console.Write($"Exam Time: {_ExamTime}      ");
+            ModelAnswer = CreateModalAnswers();
+            Console.Write($"Exam Time: {ExamTime}      ");
             Console.WriteLine($"Questions Number: {ExamQuestions.Count}      ");
             Helpers.Printline("*", 25);
             StudentAnswers = new List<List<int>>();
@@ -122,7 +117,7 @@
             for (int i = 1; i <= ExamQuestions.Count; i++)
             {
                 Console.WriteLine(ExamQuestions[i - 1].Body);
-                foreach (int rightAnswer in _ModelAnswer[i])
+                foreach (int rightAnswer in ModelAnswer[i])
                 {
                     Console.WriteLine($"Right Answer: {ExamQuestions[i - 1].QuestionAnswers[rightAnswer - 1].body}");
                 }
@@ -138,15 +133,15 @@
         public FinalExam(QuestionList _ExamQuestion) : base(_ExamQuestion)
         {
             ExamQuestions = _ExamQuestion;
-            _ExamTime = 10;
-            _NumberOfQuestions = _ExamQuestion.Count;
+            ExamTime = 10;
+            NumberOfQuestions = _ExamQuestion.Count;
 
         }
 
         public override void ShowExam()
         {
-            _ModelAnswer = CreateModalAnswers();
-            Console.Write($"Exam Time: {_ExamTime}      ");
+            ModelAnswer = CreateModalAnswers();
+            Console.Write($"Exam Time: {ExamTime}      ");
             Console.WriteLine($"Questions Number: {ExamQuestions.Count}      ");
             Helpers.Printline("*", 25);
 

@@ -17,7 +17,6 @@ namespace ExaminationSysProj
             SubjectTitle = _SubjectTitle;
         }
 
-
         public QuestionList GetSubjQuestionList()
         {
             QuestionList deserializedSubjQs = new QuestionList(false);
