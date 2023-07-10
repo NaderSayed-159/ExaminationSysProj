@@ -1,6 +1,8 @@
 ﻿using System.IO;
+using System.Reflection;
 using System.Reflection.PortableExecutable;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace ExaminationSysProj
@@ -13,13 +15,12 @@ namespace ExaminationSysProj
         public int marks { get; set; }
 
         [JsonConstructor]
-        public Question(AnswerList _QuestionAnswers, string _Body, string _header, int _marks)
+        public Question(AnswerList QuestionAnswers, string Body, string header, int marks)
         {
-            Body = _Body;
-            header = _header;
-            marks = _marks;
-
-            QuestionAnswers = _QuestionAnswers;
+            this.Body = Body;
+            this.header = header;
+            this.marks = marks;
+            this.QuestionAnswers = QuestionAnswers;
         }
 
 
@@ -42,7 +43,11 @@ namespace ExaminationSysProj
         {
             addBehaviour = _addBehaviour;
         }
+        [JsonConstructor]
+        public QuestionList()
+        {
 
+        }
         public new void Add(Question question)
         {
             base.Add(question);

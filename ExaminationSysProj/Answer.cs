@@ -1,4 +1,6 @@
-﻿namespace ExaminationSysProj
+﻿using System.Text.Json.Serialization;
+
+namespace ExaminationSysProj
 {
     public class Answer
     {
@@ -6,7 +8,7 @@
         public bool isRight { get; set; }
 
 
-
+        [JsonConstructor]
         public Answer(string body, bool isRight)
         {
             this.body = body;
