@@ -187,6 +187,7 @@ namespace ExaminationSysProj
         {
             Console.Write(header);
             Console.WriteLine($"    Marks : {marks}");
+            Console.WriteLine("Press ok to Finish");
             Console.WriteLine(Body);
 
             for (int i = 1; i <= QuestionAnswers.Count; i++)

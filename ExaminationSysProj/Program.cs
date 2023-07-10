@@ -1,4 +1,6 @@
-﻿namespace ExaminationSysProj
+﻿using System.Diagnostics;
+
+namespace ExaminationSysProj
 {
     public class Helpers
     {
@@ -87,8 +89,14 @@
 
             #endregion
 
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
             Exam.StartExam();
+
+            stopwatch.Stop();
+            TimeSpan elapsedTime = stopwatch.Elapsed;
+            Console.WriteLine($"You take {elapsedTime} Sec");
 
 
         }

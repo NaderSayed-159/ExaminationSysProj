@@ -36,17 +36,24 @@
         public abstract void ShowExam();
         public static void StartExam()
         {
-            Subject ExamSubj = Subject.ChooseSubj();
+            Subject ExamSubj;
 
-            ExamSubj.GenerateExamForSubj();
+            ExamSubj = Subject.ChooseSubj();
 
-            Helpers.Printline("+", 25);
-            Console.WriteLine($"Exam of {ExamSubj.SubjectTitle.ToUpper()}");
-            Helpers.Printline("+", 25);
+            if (ExamSubj != null)
+            {
+                ExamSubj.GenerateExamForSubj();
 
-            ExamSubj.SubjExam.ShowExam();
+                Helpers.Printline("+", 25);
+                Console.WriteLine($"Exam of {ExamSubj.SubjectTitle.ToUpper()}");
+                Helpers.Printline("+", 25);
 
-            ExamSubj.SubjExam.CorrectExam();
+                ExamSubj.SubjExam.ShowExam();
+
+                ExamSubj.SubjExam.CorrectExam();
+
+            }
+
 
         }
 
@@ -157,5 +164,30 @@
 
     }
 
+    public class QuizExam : Exam
+    {
+        QuestionList ExamQuestions;
+        public QuizExam(QuestionList _ExamQuestion) : base(_ExamQuestion)
+        {
+            ExamQuestions = _ExamQuestion;
+            ExamTime = 10;
+            NumberOfQuestions = _ExamQuestion.Count;
 
+        }
+        public override void ShowExam()
+        {
+            ModelAnswer = CreateModalAnswers();
+            Console.Write($"Exam Time: {ExamTime}      ");
+            Console.WriteLine($"Questions Number: {ExamQuestions.Count}      ");
+            Helpers.Printline("*", 25);
+
+            StudentAnswers = new List<List<int>>();
+            foreach (Question question in ExamQuestions)
+            {
+                List<int> StAnswer = question.DisplayQuestion();
+                StudentAnswers.Add(StAnswer);
+                Helpers.Printline("*", 25);
+            }
+        }
+    }
 }

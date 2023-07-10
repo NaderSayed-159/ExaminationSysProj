@@ -60,28 +60,33 @@ namespace ExaminationSysProj
                 path = new DirectoryInfo("SubjList").FullName;
             }
 
-            Console.WriteLine("What subject?");
 
             string[] textFiles = Directory.GetFiles(path, "*.txt").Select(file => Path.GetFileName(file).Substring(0, Path.GetFileName(file).Length - 4)).ToArray();
-            foreach (var fileName in textFiles)
-            {
-                Console.WriteLine($"--> {fileName}");
-            }
-
-            Subject ExamSubj;
-
+            Subject ExamSubj = default;
             string subjectNameInput;
-
-            do
+            if (textFiles.Length > 0)
             {
-                Console.Write("Your Answer : ");
-                subjectNameInput = Console.ReadLine();
-            } while (!textFiles.Contains(subjectNameInput.ToUpper()));
 
-            Helpers.Printline("*", 25);
+                Console.WriteLine("What subject?");
+                foreach (var fileName in textFiles)
+                {
+                    Console.WriteLine($"--> {fileName}");
+                }
+                do
+                {
+                    Console.Write("Your Answer : ");
+                    subjectNameInput = Console.ReadLine();
+                } while (!textFiles.Contains(subjectNameInput.ToUpper()));
+
+                Helpers.Printline("*", 25);
 
 
-            ExamSubj = new Subject(subjectNameInput);
+                ExamSubj = new Subject(subjectNameInput);
+            }
+            else
+            {
+                Console.WriteLine("There is no Exams to Be Taken :(");
+            }
 
             return ExamSubj;
         }
